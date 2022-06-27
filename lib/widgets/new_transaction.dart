@@ -21,9 +21,11 @@ class _NewTransactionState extends State<NewTransaction> {
     }
 
     widget.addTx(
-      enteredTitle,
-      enteredAmount,
+      txTitle: enteredTitle,
+      txAmount: enteredAmount,
     );
+
+    Navigator.of(context).pop();
   }
 
   @override
@@ -31,20 +33,17 @@ class _NewTransactionState extends State<NewTransaction> {
     return Card(
       elevation: 5,
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
             TextField(
-              decoration: InputDecoration(labelText: 'Title'),
+              decoration: const InputDecoration(labelText: 'Title'),
               controller: titleController,
               onSubmitted: (_) => submitData(),
-              // onChanged: (val) {
-              //   titleInput = val;
-              // },
             ),
             TextField(
-              decoration: InputDecoration(labelText: 'Amount'),
+              decoration: const InputDecoration(labelText: 'Amount'),
               controller: amountController,
               keyboardType: TextInputType.number,
               onSubmitted: (_) => submitData(),
@@ -52,10 +51,10 @@ class _NewTransactionState extends State<NewTransaction> {
             ),
             TextButton(
               onPressed: submitData,
-              child: const Text(
+              child: Text(
                 'Add Transaction',
                 style: TextStyle(
-                  color: Colors.purple,
+                  color: Theme.of(context).primaryColor,
                 ),
               ),
             ),

@@ -8,23 +8,36 @@ import './widgets/new_transaction.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter App',
-      home: MyHomePage(),
+      title: 'Personal Expenses',
+      theme: ThemeData(
+        primaryColor: Colors.purple,
+        primarySwatch: Colors.purple,
+        fontFamily: 'Quicksand',
+        appBarTheme: const AppBarTheme(
+          titleTextStyle: TextStyle(
+            fontFamily: 'OpenSans',
+            fontSize: 20,
+          ),
+        ),
+      ),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  // String titleInput;
-  // String amountInput;
+  const MyHomePage({Key? key}) : super(key: key);
+
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  MyHomePageState createState() => MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
     Transaction(
       id: 't1',
@@ -59,10 +72,10 @@ class _MyHomePageState extends State<MyHomePage> {
       builder: (_) {
         return GestureDetector(
           onTap: () {},
+          behavior: HitTestBehavior.opaque,
           child: NewTransaction(
             addTx: _addNewTransaction,
           ),
-          behavior: HitTestBehavior.opaque,
         );
       },
     );
@@ -73,7 +86,10 @@ class _MyHomePageState extends State<MyHomePage> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Expenses App'),
+          title: const Text(
+            'Personal Expenses',
+          ),
+          backgroundColor: Theme.of(context).primaryColor,
           actions: [
             IconButton(
               onPressed: () => _startAddNewTransaction(context),
@@ -84,15 +100,18 @@ class _MyHomePageState extends State<MyHomePage> {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Card(
-              color: Colors.purple,
-              child: Text('GRAPH'),
+            Card(
+              color: Theme.of(context).primaryColor,
+              child: const Text(
+                'GRAPH',
+              ),
             ),
             TransactionList(_userTransactions),
           ],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: IconButton(
+          highlightColor: Theme.of(context).primaryColor,
           onPressed: () => _startAddNewTransaction(context),
           icon: const Icon(Icons.add),
         ),
