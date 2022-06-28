@@ -4,6 +4,7 @@ import '../models/transaction.dart';
 
 import './widgets/transaction_list.dart';
 import './widgets/new_transaction.dart';
+import './widgets/chart.dart';
 
 void main() => runApp(MyApp());
 
@@ -18,11 +19,25 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.purple,
         primarySwatch: Colors.purple,
         fontFamily: 'Quicksand',
-        appBarTheme: const AppBarTheme(
-          titleTextStyle: TextStyle(
-            fontFamily: 'OpenSans',
-            fontSize: 20,
+        textTheme: const TextTheme(
+          titleLarge: TextStyle(
+            color: Colors.purple,
+            fontFamily: 'Quicksand',
+            fontSize: 40,
           ),
+          bodyMedium: TextStyle(
+            color: Colors.purple,
+            fontFamily: 'Quicksand',
+            fontSize: 40,
+          ),
+        ),
+        appBarTheme: AppBarTheme(
+          textTheme: ThemeData.light().textTheme.copyWith(
+                titleLarge: TextStyle(
+                  fontFamily: 'Quicksand',
+                  fontSize: 40,
+                ),
+              ),
         ),
       ),
       home: const MyHomePage(),
@@ -52,6 +67,15 @@ class MyHomePageState extends State<MyHomePage> {
       date: DateTime.now(),
     ),
   ];
+
+  List<Transaction> get _recentTransactions {
+    return _userTransactions
+        .where((trx) =>
+            trx.date.isAfter(DateTime.now().subtract(const Duration(days: 7)))
+                ? true
+                : false)
+        .toList();
+  }
 
   void _addNewTransaction({required String txTitle, required double txAmount}) {
     final tx = Transaction(
@@ -100,12 +124,7 @@ class MyHomePageState extends State<MyHomePage> {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Card(
-              color: Theme.of(context).primaryColor,
-              child: const Text(
-                'GRAPH',
-              ),
-            ),
+            Chart(recentTransactions: _recentTransactions),
             TransactionList(_userTransactions),
           ],
         ),
